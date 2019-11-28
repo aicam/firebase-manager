@@ -6,17 +6,6 @@ import (
 	"log"
 )
 
-type UsersFirebaseToken struct {
-	Username string `json:"username"`
-	Token string `json:"token"`
-}
-
-type BackupTokens struct {
-	gorm.Model
-	Username string `json:"username"`
-	Token string `json:"token"`
-}
-
 // Synchronize database
 func MakeMigrations(connectionString string) *gorm.DB {
 	db, err := gorm.Open(connectionString)
