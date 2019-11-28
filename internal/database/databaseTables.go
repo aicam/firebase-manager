@@ -12,3 +12,9 @@ type BackupTokens struct {
 	Username string `json:"username"`
 	Token    string `json:"token"`
 }
+
+type MessageIDs struct {
+	gorm.Model
+	Username  string `json:"username"`
+	MessageId string `json:"message_id"`
+}
