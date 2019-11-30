@@ -8,12 +8,12 @@ import (
 
 // Synchronize database
 func MakeMigrations(connectionString string) *gorm.DB {
-	db, err := gorm.Open(connectionString)
+	db, err := gorm.Open("mysql", connectionString)
 	if err != nil {
-		log.Print(err)
+		log.Print("mysql connection error : ", err)
 	}
+	db.AutoMigrate(&UsersData{})
 	db.AutoMigrate(&UsersFirebaseToken{})
-	db.AutoMigrate(&BackupTokens{})
 	db.AutoMigrate(&MessageIDs{})
 	return db
 }

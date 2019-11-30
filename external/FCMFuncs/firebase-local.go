@@ -1,27 +1,26 @@
-package external
+package FCMFuncs
 
 import (
 	"context"
 	"encoding/json"
-	firebase "firebase.google.com/go"
+	"firebase.google.com/go"
 	"firebase.google.com/go/messaging"
 	"github.com/jinzhu/gorm"
 	"log"
-	"os/exec"
+	"os"
 	"strings"
 )
 
 // this package and file is used to communicate with firebase
 // used only for linux
 func SetGoogleServicePath(googleServicePath string) {
-	cmd := exec.Command("export GOOGLE_APPLICATION_CREDENTIALS=\"" + googleServicePath + "\"")
-	err := cmd.Run()
+	err := os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", googleServicePath)
 	if err != nil {
-		log.Fatal("GOOGLE_APPLICATION_CREDENTIALS couldn't set , this may happen because app has no permission")
+		log.Print("GOOGLE_APPLICATION_CREDENTIALS couldn't set , this may happen because app has no permission \r\n", err)
 	}
 }
 
-func initializeFirebase() *firebase.App {
+func InitializeFirebase() *firebase.App {
 	app, err := firebase.NewApp(context.Background(), nil)
 	if err != nil {
 		log.Fatal("error initializing app: %v\n", err)
@@ -40,7 +39,7 @@ func SendMessage(app *firebase.App, message *messaging.Message) (string, error) 
 	// registration token.
 	resp, err := client.Send(ctx, message)
 	if err != nil {
-		log.Fatalln(err)
+		log.Print(err)
 		return "", err
 	}
 	respJson := map[string]string{}
@@ -59,7 +58,7 @@ parameters:
 	imageUrl : url of image that will show in notification
 	username: username that will notification send to
 */
-func GenerateMessage(db *gorm.DB, topic string, imageUrl string, body string, title string, username string) *messaging.Message {
+func GenerateMessage(db *gorm.DB, topic string, imageUrl string, body string, title string, token string) *messaging.Message {
 	return &messaging.Message{
 		Notification: &messaging.Notification{
 			Title:    title,
@@ -67,6 +66,6 @@ func GenerateMessage(db *gorm.DB, topic string, imageUrl string, body string, ti
 			ImageURL: imageUrl,
 		},
 		Topic: topic,
-		Token: getUsernameToken(db, username),
+		Token: token,
 	}
 }

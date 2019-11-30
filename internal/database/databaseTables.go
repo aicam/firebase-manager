@@ -3,14 +3,16 @@ package database
 import "github.com/jinzhu/gorm"
 
 type UsersFirebaseToken struct {
+	gorm.Model
 	Username string `json:"username"`
 	Token    string `json:"token"`
 }
 
-type BackupTokens struct {
+type UsersData struct {
 	gorm.Model
 	Username string `json:"username"`
-	Token    string `json:"token"`
+	Score    int    `json:"score"`
+	Ban      bool   `json:"ban"`
 }
 
 type MessageIDs struct {
