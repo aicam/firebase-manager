@@ -67,13 +67,4 @@ func GenerateMessage(topic string, imageUrl string, body string, title string, t
 		},
 		Token: token,
 	}
-	//return &messaging.Message{
-	//	Notification: &messaging.Notification{
-	//		Title:    title,
-	//		Body:     body,
-	//		ImageURL: imageUrl,
-	//	},
-	//	Topic: topic,
-	//	Token: token,
-	//}
 }
