@@ -2,10 +2,8 @@ package FCMFuncs
 
 import (
 	"context"
-	"encoding/json"
 	"firebase.google.com/go"
 	"firebase.google.com/go/messaging"
-	"github.com/jinzhu/gorm"
 	"log"
 	"os"
 	"strings"
@@ -42,13 +40,15 @@ func SendMessage(app *firebase.App, message *messaging.Message) (string, error) 
 		log.Print(err)
 		return "", err
 	}
-	respJson := map[string]string{}
-	jsonError := json.Unmarshal([]byte(resp), &respJson)
-	if jsonError != nil {
-		log.Print("It seems parsing response json from firebase failed , it may happen if firebase api changes")
-		return "", jsonError
-	}
-	return strings.Split(respJson["name"], "/")[3], nil
+	// document of firebase said response is json with field name but it isn't :)
+	//respJson := map[string]string{}
+	//log.Print(resp)
+	//jsonError := json.Unmarshal([]byte(resp), &respJson)
+	//if jsonError != nil {
+	//	log.Print("It seems parsing response json from firebase failed , it may happen if firebase api changes")
+	//	return "", jsonError
+	//}
+	return strings.Split(resp, "/")[3], nil
 }
 
 /* this method prepare message to send
@@ -58,14 +58,22 @@ parameters:
 	imageUrl : url of image that will show in notification
 	username: username that will notification send to
 */
-func GenerateMessage(db *gorm.DB, topic string, imageUrl string, body string, title string, token string) *messaging.Message {
+func GenerateMessage(topic string, imageUrl string, body string, title string, token string) *messaging.Message {
 	return &messaging.Message{
 		Notification: &messaging.Notification{
 			Title:    title,
 			Body:     body,
 			ImageURL: imageUrl,
 		},
-		Topic: topic,
 		Token: token,
 	}
+	//return &messaging.Message{
+	//	Notification: &messaging.Notification{
+	//		Title:    title,
+	//		Body:     body,
+	//		ImageURL: imageUrl,
+	//	},
+	//	Topic: topic,
+	//	Token: token,
+	//}
 }

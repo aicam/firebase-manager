@@ -34,7 +34,7 @@ func UpdateUserToken(db *gorm.DB, username string, token string) error {
 
 func GetTokenByUsername(db *gorm.DB, username string) (string, error) {
 	userToken := UsersFirebaseToken{}
-	sqlError := db.Where(&UsersFirebaseToken{Username: username}).First(userToken).Error
+	sqlError := db.Where(&UsersFirebaseToken{Username: username}).First(&userToken).Error
 	if sqlError != nil {
 		return "", sqlError
 	}

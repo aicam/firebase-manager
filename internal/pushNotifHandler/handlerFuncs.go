@@ -83,7 +83,7 @@ func (s *Server) sendNotification() http.HandlerFunc {
 			FailedSqlCommand(writer, dbError)
 			return
 		}
-		message := FCMFuncs.GenerateMessage(s.DB, topic, imageUrl, string(body), title, token)
+		message := FCMFuncs.GenerateMessage(topic, imageUrl, notifText, title, token)
 		messageID, fcmError := FCMFuncs.SendMessage(s.FCMApp, message)
 		if fcmError != nil {
 			FCMError(writer, fcmError)
