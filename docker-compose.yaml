@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mysql-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 021021ali
+      MYSQL_DATABASE: firebase
+      MYSQL_USER: aicam
+      MYSQL_PASSWORD: 021021ali
+    volumes:
+      - "./mysql:/var/lib/mysql"
+  web:
+    build: .
+    ports:
+      - "4300:4300"
+    depends_on:
+      - mysql-db

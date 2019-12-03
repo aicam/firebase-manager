@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-const DatabaseConnectionString = "aicam:021021ali@tcp(127.0.0.1:3306)/firebase?charset=utf8mb4&parseTime=True"
+const DatabaseConnectionString = "aicam:021021ali@tcp(mysql-db:3306)/firebase?charset=utf8mb4&parseTime=True"
 
 func main() {
 	args := os.Args
