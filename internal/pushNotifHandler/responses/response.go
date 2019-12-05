@@ -11,22 +11,22 @@ type ResponseStructure struct {
 	TimeStamp int64  `json:"time_stamp"`
 }
 
-func ReturnFailedResponse(data string) []byte {
+func ReturnFailedResponse(data string) string {
 	res := ResponseStructure{
 		Status:    false,
 		Data:      data,
 		TimeStamp: time.Now().Unix(),
 	}
 	resJson, _ := json.Marshal(res)
-	return resJson
+	return string(resJson)
 }
 
-func ReturnSuccessedResponse(data string) []byte {
+func ReturnSuccessedResponse(data string) string {
 	res := ResponseStructure{
 		Status:    true,
 		Data:      data,
 		TimeStamp: time.Now().Unix(),
 	}
 	resJson, _ := json.Marshal(res)
-	return resJson
+	return string(resJson)
 }

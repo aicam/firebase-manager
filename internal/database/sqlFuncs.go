@@ -48,3 +48,10 @@ func StoreMessageID(db *gorm.DB, messageId string, username string) error {
 	}).Error
 	return err
 }
+
+func AddScoreModel(db *gorm.DB, username string, score int) {
+	user := UsersData{}
+	db.Where(&UsersData{Username: username}).Find(&user)
+	user.Score += score
+	db.Save(&user)
+}

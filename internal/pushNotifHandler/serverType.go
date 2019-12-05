@@ -3,14 +3,14 @@ package pushNotifHandler
 import (
 	firebase "firebase.google.com/go"
 	"github.com/aicam/notifServer/external/FCMFuncs"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
 
 // Server parts : database(mysql) - router
 type Server struct {
 	DB     *gorm.DB
-	Router *mux.Router
+	Router *gin.Engine
 	FCMApp *firebase.App
 }
 
@@ -18,7 +18,7 @@ type Server struct {
 func NewServer() *Server {
 	return &Server{
 		DB:     nil,
-		Router: mux.NewRouter(),
+		Router: gin.Default(),
 		FCMApp: FCMFuncs.InitializeFirebase(),
 	}
 }
