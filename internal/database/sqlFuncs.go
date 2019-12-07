@@ -64,3 +64,9 @@ func AddmultipleScoreModel(db *gorm.DB, bodyJSON []struct {
 		AddScoreModel(db, item.Username, item.Score)
 	}
 }
+
+func GetUsersModel(db *gorm.DB, offset int) []UsersData {
+	users := []UsersData{}
+	db.Order("score").Limit(20).Offset(offset).Find(&users)
+	return users
+}

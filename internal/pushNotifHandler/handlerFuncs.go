@@ -164,3 +164,17 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 		c.String(http.StatusOK, responses.ReturnSuccessedResponse(counterString+" number of notifications failed to send"))
 	}
 }
+
+// limit of data retrieved is 20
+func (s *Server) getUsers() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		offset, err := strconv.Atoi(c.Param("offset"))
+		if err != nil {
+			WrongRequestParameters(c, err)
+			return
+		}
+		users := database.GetUsersModel(s.DB, offset)
+		js, _ := json.Marshal(users)
+		c.String(http.StatusOK, string(js))
+	}
+}
