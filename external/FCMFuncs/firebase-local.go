@@ -58,7 +58,7 @@ parameters:
 	imageUrl : url of image that will show in notification
 	username: username that will notification send to
 */
-func GenerateMessage(topic string, imageUrl string, body string, title string, token string) *messaging.Message {
+func GenerateMessage(imageUrl string, body string, title string, token string) *messaging.Message {
 	return &messaging.Message{
 		Notification: &messaging.Notification{
 			Title:    title,

@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func WrongRequestParameters(c *gin.Context) {
-	c.String(http.StatusOK, responses.ReturnFailedResponse("request had wrong parameters , reasons : wrong number format , arguments you passed may be less or more, \n read the document and check your request"))
+func WrongRequestParameters(c *gin.Context, err error) {
+	c.String(http.StatusOK, responses.ReturnFailedResponse("request had wrong parameters , reasons : wrong number format , arguments you passed may be less or more, \n read the document and check your request: \n"+err.Error()))
 }
 
 func FailedLoadData(c *gin.Context) {

@@ -3,6 +3,7 @@ package pushNotifHandler
 import (
 	firebase "firebase.google.com/go"
 	"github.com/aicam/notifServer/external/FCMFuncs"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
@@ -16,9 +17,12 @@ type Server struct {
 
 // Here we create our new server
 func NewServer() *Server {
+	router := gin.Default()
+	// here we opened cors for all
+	router.Use(cors.Default())
 	return &Server{
 		DB:     nil,
-		Router: gin.Default(),
+		Router: router,
 		FCMApp: FCMFuncs.InitializeFirebase(),
 	}
 }

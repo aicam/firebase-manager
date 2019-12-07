@@ -55,3 +55,12 @@ func AddScoreModel(db *gorm.DB, username string, score int) {
 	user.Score += score
 	db.Save(&user)
 }
+
+func AddmultipleScoreModel(db *gorm.DB, bodyJSON []struct {
+	Username string `json:"username"`
+	Score    int    `json:"score"`
+}) {
+	for _, item := range bodyJSON {
+		AddScoreModel(db, item.Username, item.Score)
+	}
+}
