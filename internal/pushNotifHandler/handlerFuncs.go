@@ -136,7 +136,7 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 			ImageUrl string   `json:"image_url"`
 			Users    []string `json:"users"`
 		}
-		err := c.BindJSON(JSONStruct)
+		err := c.BindJSON(&JSONStruct)
 		if err != nil {
 			WrongRequestParameters(c, err)
 		}
@@ -160,6 +160,7 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 				return
 			}
 		}
-		c.String(http.StatusOK, responses.ReturnSuccessedResponse(string(counter)+" number of notifications failed to send"))
+		counterString := strconv.Itoa(counter)
+		c.String(http.StatusOK, responses.ReturnSuccessedResponse(counterString+" number of notifications failed to send"))
 	}
 }

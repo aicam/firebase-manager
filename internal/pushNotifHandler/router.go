@@ -7,4 +7,5 @@ func (s *Server) Routes() {
 	s.Router.POST("/send_notif/:username/:title", s.sendNotification())
 	s.Router.GET("/add_single_score/:username/:score", s.addScore())
 	s.Router.POST("/add_multiple_score", s.addMultipleScore())
+	s.Router.POST("/send_multiple_notification", s.sendMultipleNotification())
 }
