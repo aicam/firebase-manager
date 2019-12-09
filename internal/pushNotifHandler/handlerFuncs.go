@@ -80,7 +80,7 @@ func (s *Server) sendNotification() gin.HandlerFunc {
 		}
 		notifText := bodyJson.Body
 		imageUrl := bodyJson.ImageUrl
-		strings.ReplaceAll(string(notifText), "%USERNAME%", username)
+		strings.ReplaceAll(notifText, "%USERNAME%", username)
 		token, dbError := database.GetTokenByUsername(s.DB, username)
 		if dbError != nil {
 			FailedSqlCommand(c, dbError)
@@ -148,6 +148,7 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 				counter++
 				continue
 			}
+			strings.ReplaceAll(JSONStruct.Body, "%USERNAME%", username)
 			message := FCMFuncs.GenerateMessage(JSONStruct.ImageUrl, JSONStruct.Body, JSONStruct.Title, token)
 			messageID, fcmError := FCMFuncs.SendMessage(s.FCMApp, message)
 			if fcmError != nil {
