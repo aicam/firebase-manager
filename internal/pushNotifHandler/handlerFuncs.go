@@ -90,6 +90,7 @@ func (s *Server) sendNotification() gin.HandlerFunc {
 		messageID, fcmError := FCMFuncs.SendMessage(s.FCMApp, message)
 		if fcmError != nil {
 			FCMError(c, fcmError)
+			database.AddFailedMessage(s.DB, username, fcmError.Error(), "single")
 			return
 		}
 		dbError = database.StoreMessageID(s.DB, messageID, username)
@@ -152,6 +153,7 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 			message := FCMFuncs.GenerateMessage(JSONStruct.ImageUrl, JSONStruct.Body, JSONStruct.Title, token)
 			messageID, fcmError := FCMFuncs.SendMessage(s.FCMApp, message)
 			if fcmError != nil {
+				database.AddFailedMessage(s.DB, username, fcmError.Error(), "multiple")
 				counter++
 				continue
 			}

@@ -20,3 +20,10 @@ type MessageIDs struct {
 	Username  string `json:"username"`
 	MessageId string `json:"message_id"`
 }
+
+type FailedMessages struct {
+	gorm.Model
+	Username  string `json:"username"`
+	ErrorSend string `json:"error_send"`
+	Type      string `json:"type"`
+}

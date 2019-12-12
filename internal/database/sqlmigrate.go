@@ -29,5 +29,6 @@ func MakeMigrations(connectionString string) *gorm.DB {
 	db.AutoMigrate(&UsersData{})
 	db.AutoMigrate(&UsersFirebaseToken{})
 	db.AutoMigrate(&MessageIDs{})
+	db.AutoMigrate(&FailedMessages{})
 	return db
 }
