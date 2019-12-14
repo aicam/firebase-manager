@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 func CheckUserNotExist(db *gorm.DB, username string) bool {
@@ -65,8 +66,30 @@ func AddmultipleScoreModel(db *gorm.DB, bodyJSON []struct {
 	}
 }
 
-func GetUsersModel(db *gorm.DB, offset int) []UsersData {
+type UsersResponseData struct {
+	Username  string     `json:"username"`
+	CreatedAt time.Time  `json:"created_at"`
+	DeletedAt *time.Time `json:"deleted_at"`
+	Score     int        `json:"score"`
+	Ban       bool       `json:"ban"`
+	Token     string     `json:"token"`
+}
+
+func GetUsersModel(db *gorm.DB, offset int, limit int) []UsersResponseData {
+	responseArray := []UsersResponseData{}
 	users := []UsersData{}
-	db.Order("score").Limit(20).Offset(offset).Find(&users)
-	return users
+	db.Order("score").Limit(limit).Offset(offset).Find(&users)
+	userToken := UsersFirebaseToken{}
+	for _, item := range users {
+		db.Where(&UsersFirebaseToken{Username: item.Username}).First(&userToken)
+		responseArray = append(responseArray, UsersResponseData{
+			Username:  item.Username,
+			CreatedAt: item.CreatedAt,
+			DeletedAt: item.DeletedAt,
+			Score:     item.Score,
+			Ban:       item.Ban,
+			Token:     userToken.Token,
+		})
+	}
+	return responseArray
 }

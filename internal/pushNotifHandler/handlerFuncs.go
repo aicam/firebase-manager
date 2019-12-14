@@ -172,11 +172,12 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 func (s *Server) getUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		offset, err := strconv.Atoi(c.Param("offset"))
+		limit, err := strconv.Atoi(c.Param("limit"))
 		if err != nil {
 			WrongRequestParameters(c, err)
 			return
 		}
-		users := database.GetUsersModel(s.DB, offset)
+		users := database.GetUsersModel(s.DB, offset, limit)
 		js, _ := json.Marshal(users)
 		c.String(http.StatusOK, string(js))
 	}
