@@ -168,7 +168,7 @@ func (s *Server) sendMultipleNotification() gin.HandlerFunc {
 	}
 }
 
-// limit of data retrieved is 20
+// limit of users retrieved is 20
 func (s *Server) getUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		offset, err := strconv.Atoi(c.Param("offset"))

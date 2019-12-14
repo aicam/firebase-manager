@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/jinzhu/gorm"
+	"log"
 	"time"
 )
 
@@ -14,58 +15,34 @@ func AddFailedMessage(db *gorm.DB, username string, errorString string, typeOf s
 	db.Save(&failedMessage)
 }
 
-func GetFailedMessages(db *gorm.DB, fromLastDays int, usernames []string, Type string, limit int, offset int) []FailedMessages {
+func GetFailedMessages(db *gorm.DB, fromLastDays int, usernames []string, Type string, limit int, offset int) ([]FailedMessages, error) {
 	var daysLimit time.Time
-	var query string
-	var args []string
 	var failedMessagesMatched []FailedMessages
-	query = " type = ? "
-	args = append(args, Type)
-	// we add new limitations by their value
-	// usernames will add by query conditions
+	baseQuery := db
+
 	if len(usernames) > 0 {
-		query += "AND ("
-		for index, item := range usernames {
-			query += " username = ? "
-			if index != len(usernames)-1 {
-				query += "OR"
+		for i, item := range usernames {
+			if i == 0 {
+				baseQuery = baseQuery.Where(&FailedMessages{Username: item})
+				continue
 			}
-			args = append(args, item)
+			baseQuery = baseQuery.Or(&FailedMessages{Username: item})
 		}
-		query += ")"
 	}
-	if fromLastDays == 0 {
+	if fromLastDays != 0 {
 		daysLimit = time.Now().Add(-time.Hour * 24 * time.Duration(fromLastDays))
-		query += " AND created_at > ? "
-		args = append(args, daysLimit.String())
+		baseQuery = baseQuery.Where(" created_at > ? ", daysLimit)
+	}
+	log.Print(daysLimit)
+	if Type != "" {
+		baseQuery = baseQuery.Where(&FailedMessages{Type: Type})
 	}
 	if limit == 0 {
-		limit = 100
+		// default limit
+		baseQuery = baseQuery.Limit(1000)
+	} else {
+		baseQuery = baseQuery.Limit(limit)
 	}
-	db.Where(query, args).Limit(limit).Offset(offset).Find(&failedMessagesMatched)
-	return failedMessagesMatched
-}
-
-func getFailedMessagesType1(db *gorm.DB, typeOf string) []FailedMessages {
-	var failedMessages []FailedMessages
-	db.Where(" type = ? ", typeOf).Limit(100).Find(&failedMessages)
-	return failedMessages
-}
-
-func getFailedMessagesType2(db *gorm.DB, typeOf string, offset int) []FailedMessages {
-	var failedMessages []FailedMessages
-	db.Where(" type = ? ", typeOf).Limit(100).Offset(offset).Find(&failedMessages)
-	return failedMessages
-}
-
-func getFailedMessagesType3(db *gorm.DB, typeOf string, limit int) []FailedMessages {
-	var failedMessages []FailedMessages
-	db.Where(" type = ? ", typeOf).Limit(limit).Find(&failedMessages)
-	return failedMessages
-}
-
-func getFailedMessagesType4(db *gorm.DB, typeOf string, limit int, offset int) []FailedMessages {
-	var failedMessages []FailedMessages
-	db.Where(" type = ? ", typeOf).Limit(limit).Offset(offset).Find(&failedMessages)
-	return failedMessages
+	err := baseQuery.Offset(offset).Find(&failedMessagesMatched).Error
+	return failedMessagesMatched, err
 }
