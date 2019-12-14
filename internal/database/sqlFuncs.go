@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"github.com/jinzhu/gorm"
 	"time"
 )
@@ -92,4 +93,14 @@ func GetUsersModel(db *gorm.DB, offset int, limit int) []UsersResponseData {
 		})
 	}
 	return responseArray
+}
+
+func RemoveUserModel(db *gorm.DB, username string) error {
+	user := UsersData{}
+	notFound := db.Where(&UsersData{Username: username}).First(&user).RecordNotFound()
+	if notFound {
+		return errors.New("User not found")
+	}
+	err := db.Delete(&user).Error
+	return err
 }

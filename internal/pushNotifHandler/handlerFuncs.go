@@ -182,3 +182,15 @@ func (s *Server) getUsers() gin.HandlerFunc {
 		c.String(http.StatusOK, string(js))
 	}
 }
+
+func (s *Server) removeUser() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		username := c.Param("username")
+		err := database.RemoveUserModel(s.DB, username)
+		if err != nil {
+			FailedSqlCommand(c, err)
+			return
+		}
+		c.String(http.StatusOK, responses.ReturnSuccessedResponse("user removed successfully"))
+	}
+}
