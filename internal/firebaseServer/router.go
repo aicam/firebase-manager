@@ -1,4 +1,4 @@
-package pushNotifHandler
+package firebaseServer
 
 func (s *Server) Routes() {
 	s.Router.GET("/add_user/:username/:score", s.addUser())
@@ -10,4 +10,5 @@ func (s *Server) Routes() {
 	s.Router.POST("/send_multiple_notification", s.sendMultipleNotification())
 	s.Router.GET("/get_users/:offset/:limit", s.getUsers())
 	s.Router.POST("/get_failed_messages", s.getFailedMessagesByDate())
+
 }

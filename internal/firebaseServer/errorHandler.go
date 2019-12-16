@@ -1,7 +1,7 @@
-package pushNotifHandler
+package firebaseServer
 
 import (
-	"github.com/aicam/notifServer/internal/pushNotifHandler/responses"
+	"github.com/aicam/notifServer/internal/firebaseServer/responses"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

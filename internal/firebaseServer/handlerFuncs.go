@@ -1,10 +1,10 @@
-package pushNotifHandler
+package firebaseServer
 
 import (
 	"encoding/json"
 	"github.com/aicam/notifServer/external/FCMFuncs"
 	"github.com/aicam/notifServer/internal/database"
-	"github.com/aicam/notifServer/internal/pushNotifHandler/responses"
+	"github.com/aicam/notifServer/internal/firebaseServer/responses"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"

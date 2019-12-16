@@ -4,7 +4,7 @@ import (
 	"github.com/aicam/notifServer/external/FCMFuncs"
 	_ "github.com/aicam/notifServer/external/FCMFuncs"
 	"github.com/aicam/notifServer/internal/database"
-	"github.com/aicam/notifServer/internal/pushNotifHandler"
+	"github.com/aicam/notifServer/internal/firebaseServer"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 	"net/http"
@@ -25,7 +25,7 @@ func main() {
 	}
 	FCMFuncs.SetGoogleServicePath(googleServicePath)
 	// initialize new server with db and router
-	s := pushNotifHandler.NewServer()
+	s := firebaseServer.NewServer()
 	// initialize database
 	db := database.MakeMigrations(DatabaseConnectionString)
 	s.DB = db
