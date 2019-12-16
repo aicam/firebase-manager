@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/jinzhu/gorm"
+	"net/http"
 )
 
 // Server parts : database(mysql) - router
@@ -29,6 +30,9 @@ func NewServer() *Server {
 		SocketConnection: websocket.Upgrader{
 			ReadBufferSize:  1024,
 			WriteBufferSize: 2048,
+			CheckOrigin: func(r *http.Request) bool {
+				return true
+			},
 		},
 	}
 }

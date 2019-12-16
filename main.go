@@ -30,6 +30,7 @@ func main() {
 	db := database.MakeMigrations(DatabaseConnectionString)
 	s.DB = db
 	s.Routes()
+
 	err := http.ListenAndServe("0.0.0.0:4300", s.Router)
 	if err != nil {
 		log.Print(err)
