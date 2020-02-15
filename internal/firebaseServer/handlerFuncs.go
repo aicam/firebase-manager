@@ -194,3 +194,10 @@ func (s *Server) removeUser() gin.HandlerFunc {
 		c.String(http.StatusOK, responses.ReturnSuccessedResponse("user removed successfully"))
 	}
 }
+
+func (s *Server) sendByScore() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		minimumScore := c.Param("minimum_score")
+
+	}
+}

@@ -2,6 +2,8 @@ package database
 
 import (
 	"errors"
+	"firebase.google.com/go/messaging"
+	"github.com/aicam/notifServer/external/FCMFuncs"
 	"github.com/jinzhu/gorm"
 	"time"
 )
@@ -103,4 +105,13 @@ func RemoveUserModel(db *gorm.DB, username string) error {
 	}
 	err := db.Delete(&user).Error
 	return err
+}
+
+func sendByScoreModel(db *gorm.DB, minimum_score uint, message *messaging.Message) error {
+	var users []UsersData
+	userToken := UsersFirebaseToken{}
+	db.Where(" score > ?", minimum_score).Find(&users)
+	for item, i := range users {
+
+	}
 }

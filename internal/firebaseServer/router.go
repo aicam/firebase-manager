@@ -11,4 +11,5 @@ func (s *Server) Routes() {
 	s.Router.GET("/get_users/:offset/:limit", s.getUsers())
 	s.Router.POST("/get_failed_messages", s.getFailedMessagesByDate())
 	s.Router.GET("/socket-test", s.handleSearchUsername())
+	s.Router.POST("/send_notif_by_score/:minimum_score")
 }
