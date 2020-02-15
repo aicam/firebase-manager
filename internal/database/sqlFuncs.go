@@ -108,6 +108,7 @@ func RemoveUserModel(db *gorm.DB, username string) error {
 }
 
 func sendByScoreModel(db *gorm.DB, minimum_score uint, message *messaging.Message) error {
+	// TODO: inner join and config database
 	var users []UsersData
 	userToken := UsersFirebaseToken{}
 	db.Where(" score > ?", minimum_score).Find(&users)
