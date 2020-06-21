@@ -9,5 +9,13 @@
 <p><b>http://localhost:4300/</b> follows:</p>
 <p><b>GET: /add_user/{username}/{score}</b> add new user to users list </p>
 <p><b>GET: /remove_user/{username}</b> remove username from users list</p>
+<p><b>POST: /send_notif/{username}/{title}</b> use this api to send a notification to a specific username, sample json:</p>
+<p>{'body': <-my notif text>, 'image_url': <-url of your image>}</p>
 <p><b>GET: /set_token/{username}/{token}</b> This api should place in application to periodically send token and username, for example in react native you put this api after notifications.getToken()</p>
-<p><b>POST /add_multiple_score</b></p>
+<p><b>POST: /add_multiple_score</b> array of users and scores to add (sample example):</p>
+<p>[{'username': <-username>, 'score': <-score>}, ...]</p>
+<p><b>POST: /send_multiple_notification</b> sample json:</p>
+<p>{"Body":"Your request body","Title":"Notif title","ImageUrl":"Image url","Users":["aicam","aicam2"]}</p>
+<p><b>POST: /get_failed_messages</b> </p>
+
+
