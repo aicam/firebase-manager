@@ -16,6 +16,8 @@
 <p>[{'username': <-username>, 'score': <-score>}, ...]</p>
 <p><b>POST: /send_multiple_notification</b> sample json:</p>
 <p>{"Body":"Your request body","Title":"Notif title","ImageUrl":"Image url","Users":["aicam","aicam2"]}</p>
-<p><b>POST: /get_failed_messages</b> </p>
+<p><b>POST: /get_failed_messages</b> if any error occurs during sending notification in will be saved and you can see the result with this api, sample json: </p>
+<p>{"from_last_days":1,"usernames":["aicam","aicam2"],"type":"specific type if is needed","limit":10,"offset":0}
+</p>
 
 
