@@ -20,4 +20,6 @@
 <p>{"from_last_days":1,"usernames":["aicam","aicam2"],"type":"specific type if is needed","limit":10,"offset":0}
 </p>
 
-
+<h3>Google service</h3>
+<p>You can add your google-service.json to libs folder and run and you can put the path with input args like </p>
+> go run main.go <-path>
